@@ -1,0 +1,121 @@
+/**************************************
+*Class Project                      *
+*  Class to implement Social Network  *
+*   Andy Fisher 4/8/2016              *
+***************************************/
+
+import java.util.Scanner;
+
+/**
+ * Class testing the binary search tree bag
+ */
+
+public class Main{
+
+    public static void main(String[] args){
+    	
+    	String nombre;
+    	String statoos;
+    	MasterList mNetwork = new MasterList(nombre, statoos);
+    	ProfileList pNetwork = new ProfileList(nombre, statoos);
+    	Scanner in = new Scanner(System.in);
+    	boolean exit = false;
+    	
+    	while(exit){  //Continually loops waiting for exit at the end of the program
+    		
+    		System.out.println("Welcome to the network, press (c) to continue:");
+    		if (in.nextLine().equalsIgnoreCase("c")){
+    			
+    			break;
+    		}
+    	
+	    	while (true){ //Opening and add initial user profile
+	    		
+	    		System.out.print("Do you have a profile? (y/n)");
+	    		if (in.nextLine().equalsIgnoreCase("n")) {
+	    			
+	    			System.out.println("Enter your name:");
+	    			String name = in.nextLine();
+	    			System.out.println("Enter your status:");
+	    			String status = in.nextLine();
+	    			network.add(name, status);
+	            } 
+	    		else{  //Logs on if profile already exists
+	
+	                System.out.println("Enter your name");
+	                String name = in.nextLine();
+	                network.logOn(name);
+	                break;
+	    		}
+	    	}
+	    	
+	    	while (true){  //Add additional profiles
+	    	
+	    		System.out.println("Add more profiles so you're not lonely?");
+	    		if (in.nextLine().equalsIgnoreCase("y")){
+	    			
+	    			System.out.println("Enter your name:");
+	    			String name = in.nextLine();
+	    			System.out.println("Enter your status:");
+	    			String status = in.nextLine();
+	    			network.addMaster(name, status);  
+	    		}
+	    		else{  //No bail out and on to the next
+	    			
+	    			break;
+	    		}
+	    	}
+	    	
+	    	while (true){
+	    		
+	    		System.out.println("Would you like to search (s), modify (m), or delete (d) a profile? Or press (e) to exit:");
+	    		if (in.nextLine().equalsIgnoreCase("s")){
+	    			
+	    			System.out.println("Enter a name to look up:");
+	    			String name = in.nextLine();
+	    			network.getFriend(name);
+	    			System.out.println("Add as a friend? (y/n)");
+	    			if (in.nextLine().equalsIgnoreCase("y")){
+	    				
+	    				network.addFriend(name);
+	    			}
+	    			else{
+	    				
+	    				break;
+	    			}
+	    		}
+	    		if (in.nextLine().equalsIgnoreCase("m")){
+	    			
+	    			System.out.println("Enter a name to modify a profile");
+	    			String name = in.nextLine();
+	    			network.getFriend(name);
+	    			System.out.println("Change name (n) or status (s)");
+	    			if (in.nextLine().equalsIgnoreCase("n")){
+	    				
+	    				System.out.println("Enter name to change to:");
+	    				String nameChanger = in.nextLine();
+	    				network.modName(nameChanger);
+	    			}
+	    			else{
+	    				
+	    				System.out.println("What is your new status?:");
+	    				String statusChanger = in.nextLine();
+	    				network.modStatus(statusChanger);
+	    				break;
+	    			}
+	    		}
+	    		if (in.nextLine().equalsIgnoreCase("d")){
+	    			
+	    			System.out.println("Enter the name of the profile you wish to delete:");
+	    			String delName = in.nextLine();
+	    			network.delProfile(delName);
+	    		}
+	    		if (in.nextLine().equalsIgnoreCase("e")){
+	    			
+	    			exit = true;
+	    			break;
+	    		}
+	    	}
+    	}
+    }   	    
+}
