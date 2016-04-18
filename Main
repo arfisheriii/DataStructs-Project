@@ -14,108 +14,134 @@ public class Main{
 
     public static void main(String[] args){
     	
-    	String nombre;
-    	String statoos;
-    	MasterList mNetwork = new MasterList(nombre, statoos);
-    	ProfileList pNetwork = new ProfileList(nombre, statoos);
+    	String nom = "";
+    	String stat = "";
+    	MasterList mNetwork = new MasterList(nom, stat);
+    	ProfileList pNetwork = new ProfileList();
     	Scanner in = new Scanner(System.in);
-    	boolean exit = false;
+    	boolean exit = true;
+    	boolean out = true;
     	
     	while(exit){  //Continually loops waiting for exit at the end of the program
     		
-    		System.out.println("Welcome to the network, press (c) to continue:");
-    		if (in.nextLine().equalsIgnoreCase("c")){
-    			
-    			break;
-    		}
+    		System.out.println("Welcome to the social network!!\n");
     	
 	    	while (true){ //Opening and add initial user profile
 	    		
-	    		System.out.print("Do you have a profile? (y/n)");
-	    		if (in.nextLine().equalsIgnoreCase("n")) {
-	    			
-	    			System.out.println("Enter your name:");
-	    			String name = in.nextLine();
-	    			System.out.println("Enter your status:");
-	    			String status = in.nextLine();
-	    			network.add(name, status);
-	            } 
-	    		else{  //Logs on if profile already exists
-	
-	                System.out.println("Enter your name");
-	                String name = in.nextLine();
-	                network.logOn(name);
-	                break;
-	    		}
+	    		System.out.println("To create your profile start by");
+    			System.out.println("Entering your name:");
+    			String name = in.nextLine();
+    			System.out.println("Now enter your status:");
+    			String status = in.nextLine();
+    			mNetwork.add(name, status);
+    			pNetwork.createProfile(name, status);
+                break;
+	    		
 	    	}
 	    	
 	    	while (true){  //Add additional profiles
 	    	
-	    		System.out.println("Add more profiles so you're not lonely?");
+	    		System.out.println("Add more profiles so you're not lonely? (y/n)");
 	    		if (in.nextLine().equalsIgnoreCase("y")){
 	    			
-	    			System.out.println("Enter your name:");
+	    			System.out.println("Enter another name:");
 	    			String name = in.nextLine();
-	    			System.out.println("Enter your status:");
+	    			System.out.println("Enter a status:");
 	    			String status = in.nextLine();
-	    			network.addMaster(name, status);  
+	    			mNetwork.add(name, status);  
 	    		}
-	    		else{  //No bail out and on to the next
+	    		else if (in.nextLine().equalsIgnoreCase("n")){
 	    			
-	    			break;
+	    			break;  //No, bail out and wait for another y/n
 	    		}
 	    	}
 	    	
-	    	while (true){
+	    	while (out){  //menu loop to search, modify, add friends, delete or exit
 	    		
-	    		System.out.println("Would you like to search (s), modify (m), or delete (d) a profile? Or press (e) to exit:");
-	    		if (in.nextLine().equalsIgnoreCase("s")){
+	    		while(true){ //Search the master list for profiles
 	    			
-	    			System.out.println("Enter a name to look up:");
-	    			String name = in.nextLine();
-	    			network.getFriend(name);
-	    			System.out.println("Add as a friend? (y/n)");
+	    			System.out.println("Search profiles? (y/n)");
 	    			if (in.nextLine().equalsIgnoreCase("y")){
-	    				
-	    				network.addFriend(name);
+		    			
+	    				System.out.println("Enter a name to look up:");
+		    			String aname = in.nextLine();
+		    			mNetwork.findFriend(aname);
 	    			}
 	    			else{
 	    				
-	    				break;
+	    				break;  //if user hits no
 	    			}
 	    		}
-	    		if (in.nextLine().equalsIgnoreCase("m")){
-	    			
-	    			System.out.println("Enter a name to modify a profile");
-	    			String name = in.nextLine();
-	    			network.getFriend(name);
-	    			System.out.println("Change name (n) or status (s)");
-	    			if (in.nextLine().equalsIgnoreCase("n")){
-	    				
-	    				System.out.println("Enter name to change to:");
-	    				String nameChanger = in.nextLine();
-	    				network.modName(nameChanger);
+		    			
+	    		while(true){  //add a friend to user profile
+		    			
+	    			System.out.println("Add some friends? (y/n)");
+	    			if (in.nextLine().equalsIgnoreCase("y")){
+		    				
+	    				System.out.println("Enter a name:");
+		    			String addName = in.nextLine();
+		    			mNetwork.findFriend(addName);
+	    				pNetwork.addFriend(addName);
 	    			}
 	    			else{
 	    				
-	    				System.out.println("What is your new status?:");
-	    				String statusChanger = in.nextLine();
-	    				network.modStatus(statusChanger);
-	    				break;
+	    				break;  //if user hits no 
 	    			}
 	    		}
-	    		if (in.nextLine().equalsIgnoreCase("d")){
-	    			
-	    			System.out.println("Enter the name of the profile you wish to delete:");
-	    			String delName = in.nextLine();
-	    			network.delProfile(delName);
+	
+		    	while (true){ //modify a profile in master list then change in users profile
+		    			
+		    		System.out.println("Modify profile? (y/n)");
+		    		if (in.nextLine().equalsIgnoreCase("y")){
+		    	
+		    			System.out.println("Enter a name to modify a profile");
+		    			String name = in.nextLine();
+		    			System.out.println("Enter a new name:");
+		    			String nameChanger = in.nextLine();
+		    			System.out.println("Enter a new status:");
+		    			String statusChanger = in.nextLine();
+		    			mNetwork.findFriend(name);
+		    			mNetwork.modProfile(name, nameChanger, statusChanger);
+		    			pNetwork.modProfile(name, nameChanger);
+	    				}
+	    				else{
+	    					
+	    					break; //if user hits no
+	    				}
+	    			}
+		    			
+		    	while(true){  //removes a profile from master list and profile list
+		    		
+		    		System.out.println("Delete a profile? (y/n)");
+		    		if (in.nextLine().equalsIgnoreCase("y")){
+		    			
+		    			System.out.println("Enter the name of the profile you wish to delete:");
+		    			String delName = in.nextLine();
+		    			mNetwork.findFriend(delName);
+		    			mNetwork.delProfile(delName);
+		    			pNetwork.delProfile(delName);
+		    			}
+		    			else{
+		    				
+		    				break; //if user hits no
+		    			}
+		    		}
+		    		
+	    		while(true){  //either exit the menu loop or stay in 
+	    			System.out.println("Exit? (y/n)");		    		
+	    			if (in.nextLine().equalsIgnoreCase("y")){
+	    	
+	    				System.out.println("Come back soon");
+	    				out = false;  //bail out of searching loops
+	    				exit = false;//exit program
+	    				break;
+	    			}
+	    			else{
+
+	    				break; //if user hits no
+	    			}		    			
 	    		}
-	    		if (in.nextLine().equalsIgnoreCase("e")){
-	    			
-	    			exit = true;
-	    			break;
-	    		}
-	    	}
+	    	}	
     	}
     }   	    
 }
