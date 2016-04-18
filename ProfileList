@@ -1,44 +1,68 @@
 /**************************************
 *Class Project                        *
 *  Class to implement ArrayList       *
-*  	sets up user profiles
+*  	sets up and maintains the         *
+*  	user profiles                     *
 *   Andy Fisher 4/8/2016              *
 ***************************************/
-import java.util.*;
+import java.util.ArrayList;
 
 public class ProfileList {
 	
-	private ArrayList profileBag; 
-	private String name;
-	private String status;
-	
-	public ProfileList(String name, String status){
-	
-		ArrayList profileBag = new ArrayList();		
+	private ArrayList<String> profileBag;
+
+	public ProfileList(){
+				
+		profileBag = new ArrayList<String>(5);		
 	}
-
-    public void add(String n, String s) {
+	
+	/**
+     * Adds user name to profile list
+     */
+    public void createProfile(String n, String s) {
     	
-    	profileBag.add(n, s);
+    	profileBag.add(n);
+    	profileBag.add(s);   	
     }
-
-    public void logOn(String n) {
+    
+    /**
+     * Adds a friends name to the profile list.
+     */
+    public void addFriend(String n) {
     	
-    	profileBag.login(n);
+    	profileBag.add(n);
+    	System.out.println("Friend added");
     }
-
-    public void masterAdd(String n, String s) {
-    	
-        profileBag.addToMaster(n, s);
+    
+    /**
+     * Sequential search for name in profile list.
+     *	Changes the found name to the new name.
+     */
+    public void modProfile(String n, String newN){
+    	  
+    	for (int i = 0; i < profileBag.size(); i++){
+			  
+			  if(n.equals(profileBag.get(i))){
+	  
+				  profileBag.set(i, newN);
+				  System.out.println("Friends list has been updated");
+			  }
+    	}
     }
-
-    public String getFriend(String n) {
-    	
-        return profileBag.sortedSearch(n);
-    }
-
-    public void setFriend(String n) {
-    	
-    	profileBag.addFriend(n);
+    
+    /**
+     * Sequential search for name in profile list.
+     *	Deletes the found name from profile list.
+     */
+    public void delProfile(String n){
+        
+    	for (int i = 0; i < profileBag.size(); i++){
+			  
+			  if(n.equals(profileBag.get(i))){
+	  
+				  profileBag.remove(i);
+				  System.out.println("Friends list has been updated");
+			  }
+    	}
     }
 }
